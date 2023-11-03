@@ -46,7 +46,7 @@ router.get('/:cid', async (req, res)=>{
     }
 })
 
-/*DELTE CART */
+/*DELETE PRODUCT */
 
 router.delete('/:cid/products/:pid',async (req,res)=>{
     try {
@@ -57,5 +57,33 @@ router.delete('/:cid/products/:pid',async (req,res)=>{
         res.status(500).json({ message: error.message });
     }
 })
+
+//UPDATE CART PRODUCTS ARRAY
+router.put('/:cid', async (req, res)=>{
+    try {
+        const { cid } = req.params
+        const { products } = req.body
+        const response = await cManager.updateAllProducts(cid, products)        
+        res.status(200).json({ message: 'Products updated', cart: response })
+    }
+    catch (error){
+        res.status(500).json({ message: error.message });
+    }
+})
+
+
+//DELETE ALL PRODUCTS
+router.delete('/:cid', async (req, res) =>{    
+    try{
+        const { cid } = req.params        
+        const response = await cManager.deleteAllProducts(cid)        
+        res.status(200).json({message: "Products deleted", cart: response})             
+    }
+    catch(error){
+        res.status(500).json({ message: error.message });
+    }
+})
+
+
 
 export default router

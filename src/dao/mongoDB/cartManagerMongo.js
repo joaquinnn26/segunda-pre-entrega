@@ -1,5 +1,4 @@
 import { cartsModel } from "../../db/models/carts.model.js";
-/* import { prodmanager } from "./productManagerMongo.js"; */
 
 class CartsManager {
     async createCart() {
@@ -30,8 +29,7 @@ class CartsManager {
             }
             await selectedCart.save()
             return selectedCart
-            //await cartsModel.updateOne({ _id: cid }, {products: selectedCart.products});            
-            //return selectedCart;
+
         }
         async deleteProduct(cid,pid){
             const selectedCart = await cartsModel.findById(cid);
@@ -45,6 +43,31 @@ class CartsManager {
             await selectedCart.save()
             return selectedCart;
         }
+        async updateAllProducts(cid, arr){
+            const selectedCart = await cartsModel.findById(cid)
+            const newProducts = arr
+            selectedCart.products = newProducts
+            await selectedCart.save()
+            return selectedCart
+        }
+        async updateProductQuantity(cid, pid, quant){
+            const selectedCart = await cartsModel.findById(cid)
+            const productIndex = selectedCart.products.findIndex(p => p.product.equals(pid));
+            const newQuantity = quant
+            if (productIndex !== -1) {
+                selectedCart.products[productIndex].quantity = newQuantity
+            }        
+            await selectedCart.save()
+            return selectedCart
+        }
+
+        async deleteAllProducts(cid){
+            const selectedCart = await cartsModel.findById(cid)        
+            selectedCart.products = []        
+            await selectedCart.save()
+            return selectedCart
+        }
+
     }    
 
 

@@ -34,7 +34,7 @@ const httpServer = app.listen(8080, () => {
 
 
 const socketServer = new Server(httpServer);
-/* const messages = []; */
+
 socketServer.on("connection", (socket) => {
   console.log(`Cliente conectado: ${socket.id}`);
   socket.on("newUser", (user) => {
