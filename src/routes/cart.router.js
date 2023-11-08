@@ -84,6 +84,17 @@ router.delete('/:cid', async (req, res) =>{
     }
 })
 
+//UPDATE QUANTITY
 
+router.put('/:cid/products/:pid', async (req,res)=>{
+    try {
+        const {cid,pid}=req.params
+        const {quant}=req.body
+        const updateQuantity=await cManager.updateProductQuantity(cid,pid,quant)
+        res.status(200).json({message:'updated',cart: updateQuantity})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
 
 export default router

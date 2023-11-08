@@ -2,7 +2,7 @@ import { productsModel } from "../../db/models/products.model.js";
 
 class ProductsManager {
   async findAll(obj) {
-    const { limit = 10, page = 1, order = "def", ...query } = obj;
+    const { limit = 10, page = 1,category="def", order = "def", ...query } = obj;
 
     let sort
     if (order== "asc"){
@@ -18,7 +18,8 @@ class ProductsManager {
       limit: limit,
       sort
     }
-
+    query.category=category;
+    
     const response = await productsModel.paginate(query, options);
     /* console.log(response) */
     const info = {
